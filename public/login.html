@@ -27,5 +27,48 @@
     </div>
 
     <script src="login.js"></script>
+
+    <!--DARK/LIGHT MODE-->
+    <script>
+const switchToggle = document.getElementById('modeSwitch');
+const body = document.body;
+const modeText = document.getElementById('modeText');
+
+switchToggle.addEventListener('change', () => {
+  body.classList.toggle('dark-mode');
+  if (body.classList.contains('dark-mode')) {
+    modeText.textContent = 'Dark Mode';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    modeText.textContent = 'Light Mode';
+    localStorage.setItem('theme', 'light');
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
+    modeText.textContent = 'Dark Mode';
+    switchToggle.checked = true;
+  }
+});
+
+//        Login Funciton
+document.getElementById("loginBtn").addEventListener("click", () => {
+    const name = document.getElementById("username").value.trim(); 
+
+    // Check if a name was entered
+    if (name.length > 0) {
+        // Store the name in localStorage
+        localStorage.setItem("quizUser", name);
+
+        // Redirect to the quiz homepage
+        window.location.href = "index.html";
+    } else {
+        alert("Please enter your name");
+    }
+});
+  </script>
 </body>
 </html>

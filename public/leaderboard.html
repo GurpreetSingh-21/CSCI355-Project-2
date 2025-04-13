@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="mode-toggle">
+        <label class="switch">
+          <input type="checkbox" id="modeSwitch" />
+          <span class="slider round">
+            <span class="sun">☀️</span>
+            <span class="moon">🌙</span>
+          </span>
+        </label>
+        <span id="modeText">Light Mode</span>
+    </div>
+
+    <div class="container">
+        <h1 class="leaderboard-title">
+            <span class="trophy-icon">🏆</span> Leaderboard </h1>
+        <table id="leaderboardTable">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboardBody"></tbody>
+        </table>
+
+        <button id="backBtn">⬅️ Back to Home</button>    
+    </div>
+
+    <!--DARK/LIGHT MODE-->
+    <script>
+        const switchToggle = document.getElementById('modeSwitch');
+        const body = document.body;
+        const modeText = document.getElementById('modeText');
+        
+        switchToggle.addEventListener('change', () => {
+          body.classList.toggle('dark-mode');
+          if (body.classList.contains('dark-mode')) {
+            modeText.textContent = 'Dark Mode';
+            localStorage.setItem('theme', 'dark');
+          } else {
+            modeText.textContent = 'Light Mode';
+            localStorage.setItem('theme', 'light');
+          }
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            modeText.textContent = 'Dark Mode';
+            switchToggle.checked = true;
+          }
+
+          //leaderboard logic
+
+        const tableBody = document.getElementById("leaderboardBody");
+        const scores = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+        if (scores.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.setAttribute("colspan", "3");
+            cell.textContent = "No scores yet. Be the first!";
+            cell.style.textAlign = "center";
+            row.appendChild(cell);
+            tableBody.appendChild(row);
+        }
+        else{
+            scores
+            .sort((a, b) => b.score - a.score)
+            .forEach((entry, index) => {
+                const row = document.createElement("tr");
+
+                const rank = document.createElement("td");
+                let medal = "";
+                if (index === 0) medal = "🥇";
+                else if ( index === 1) medal = "🥈";
+                else if (index === 2) medal = "🥉";
+                else medal = `${index + 1}`;
+                rank.textContent = medal;
+
+                const name = document.createElement("td");
+                name.textContent = entry.name;
+
+                const score = document.createElement("td");
+                score.textContent = entry.score;
+
+                row.appendChild(rank);
+                row.appendChild(name);
+                row.appendChild(score);
+                tableBody.appendChild(row);
+            });
+        }
+
+    // back button functionality
+    document.getElementById("backBtn").addEventListener("click", () => {
+        window.location.href = "index.html";
+    });
+});
+    </script>
+
+</body>
+</html>

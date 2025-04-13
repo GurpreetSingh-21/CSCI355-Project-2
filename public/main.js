@@ -226,6 +226,12 @@ if (window.location.pathname.includes("quiz.html")) {
       localStorage.setItem("score", score);
       localStorage.setItem("total", numberOfQuestions);
 
+      //save leaderboard
+      const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+      const playerName = localStorage.getItem("quizUser") || "Guest";
+      leaderboard.push({name: playerName, score: score });
+      localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
       // Transition out animation before redirect
       document.querySelector(".container").classList.add("fade-out");
 

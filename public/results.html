@@ -23,7 +23,10 @@
   <div class="container">
     <h1>Your Score</h1>
     <p id="score"></p>
-    <button id="restart">Restart Quiz</button>
+    <div class="button-row">
+      <button id="restart" >Restart Quiz</button>
+      <button id="leaderboardBtn">🏆 View Leaderboard</button> 
+  </div>
   </div>
 
   <script src="main.js"></script>
@@ -51,7 +54,16 @@ document.addEventListener('DOMContentLoaded', () => {
     modeText.textContent = 'Dark Mode';
     switchToggle.checked = true;
   }
+
+  // Leaderboard button logic
+  const leaderboardBtn = document.getElementById("leaderboardBtn");
+  if (leaderboardBtn) {
+    leaderboardBtn.addEventListener("click", () => {
+      window.location.href = "leaderboard.html";
+    });
+  }
 });
+
   </script>
 </body>
 </html>
